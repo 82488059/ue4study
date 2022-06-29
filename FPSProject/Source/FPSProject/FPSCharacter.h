@@ -6,6 +6,7 @@
 #include "GameFramework/Character.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "FPSProjectile.h"
 
 #include "FPSCharacter.generated.h"
 
@@ -21,6 +22,11 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+
+	// 要生成的发射物类。
+	UPROPERTY(EditDefaultsOnly, Category = Projectile)
+		TSubclassOf<class AFPSProjectile> ProjectileClass;
+
 
 public:	
 	// Called every frame
@@ -55,6 +61,14 @@ public:
 	// 第一人称网格体（手臂），仅对所属玩家可见。
 	UPROPERTY(VisibleDefaultsOnly, Category = Mesh)
 		USkeletalMeshComponent* FPSMesh;
+
+
+	// 处理发射物射击的函数。
+	UFUNCTION()
+		void Fire();
+	// 枪口相对于摄像机位置的偏移。
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gameplay)
+		FVector MuzzleOffset;
 
 
 };
